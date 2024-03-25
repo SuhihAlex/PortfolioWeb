@@ -8700,13 +8700,13 @@ close_btn.addEventListener('click', () => {
 /***/ (() => {
 
 let imgs = [
-    '../img/robo.png',
-    '../img/evklid.png',
-    '../img/blanchard.png',
-    '../img/rivo.png',
-    '../img/rivo-menu.png',
-    '../img/trinity.png',
-    '../img/trinity-menu.png',
+    './img/robo.png',
+    './img/evklid.png',
+    './img/blanchard.png',
+    './img/rivo.png',
+    './img/rivo-menu.png',
+    './img/trinity.png',
+    './img/trinity-menu.png',
 ],
 n = imgs.length,
 current = n-1,
