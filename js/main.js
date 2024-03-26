@@ -8563,6 +8563,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_contacts_modal_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components_contacts_modal_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_block_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/block.js */ "./src/js/components/block.js");
 /* harmony import */ var _components_block_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_block_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_form_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/form.js */ "./src/js/components/form.js");
+/* harmony import */ var _components_form_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_form_js__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
@@ -8689,6 +8692,69 @@ contact_btn.addEventListener('click', () => {
 });
 close_btn.addEventListener('click', () => {
     contact_container.classList.remove('visible')
+});
+
+/***/ }),
+
+/***/ "./src/js/components/form.js":
+/*!***********************************!*\
+  !*** ./src/js/components/form.js ***!
+  \***********************************/
+/***/ (() => {
+
+$(function() {
+    $('.contacts__form').each(function() {    
+        var $frm = $(this);
+        var input = $(this).find('.validate-input-at .input-at');
+        var butsend = $(this).find('.form-at-btn');
+        butsend.on('click',function(){
+            var check = true;
+            for(var i=0; i<input.length; i++) {
+                if(validate(input[i]) == false){
+                    showValidate(input[i]);
+                    check=false;
+                }
+            }
+            // Отправка формы        
+            if (check == true) {
+                $.post("./send.php", $frm.find(".form-at select, .form-at input, .form-at textarea").serialize(),
+                    function(data){
+                        if(data.frm_check == 'error'){ 
+                            $frm.find(".result-at").html("<div class='error-at'>Error: " + data.msg + "</div>");                    
+                            } else {
+                            $frm.find(".result-at").html("<div class='success-at'>Your message has been sent!</div>"); 
+                            $frm.find(".form-at").fadeOut(500);
+                            $frm.find(".input-at").val("");            
+                        }
+                    }, "json");
+                    return false;
+            }
+        });
+        $('.form-at .input-at').each(function(){
+            $(this).focus(function(){
+                hideValidate(this);
+            });
+        });
+        
+    });    
+    function validate(input) {
+            if($(input).attr('type') == 'email' || $(input).attr('name') == 'email-at') {
+            if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+            return false;
+            }
+            }
+        if($(input).val().trim() == ''){
+            return false;
+        }
+    }
+    function showValidate(input) {
+        var thisAlert = $(input).parent();
+        $(thisAlert).addClass('alert-validate');
+    }
+    function hideValidate(input) {
+        var thisAlert = $(input).parent();
+        $(thisAlert).removeClass('alert-validate');
+    }
 });
 
 /***/ }),
@@ -9079,6 +9145,7 @@ module.exports = function availableTypedArrays() {
 /******/ 	__webpack_require__("./src/js/_vendor.js");
 /******/ 	__webpack_require__("./src/js/components/block.js");
 /******/ 	__webpack_require__("./src/js/components/contacts-modal.js");
+/******/ 	__webpack_require__("./src/js/components/form.js");
 /******/ 	__webpack_require__("./src/js/components/projects.js");
 /******/ 	__webpack_require__("./src/js/functions/check-viewport.js");
 /******/ 	__webpack_require__("./src/js/functions/mobile-check.js");
